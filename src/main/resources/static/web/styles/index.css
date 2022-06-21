@@ -1,0 +1,235 @@
+body {
+    font-family: sans-serif;
+}
+
+header {
+    height: 3rem;
+    background-color: #023F80;
+}
+
+.img-logo {
+    height: 48px;
+    width: 48px;
+    margin-left: 1rem;
+}
+
+/* LOGIN */
+/* From uiverse.io by @Botwe-Felix5820 */
+.btn-login {
+    height: 2em;
+    width: 5em;
+    margin-left: 9rem;
+    border: none;
+    border-radius: 10em;
+    background: #FF8C00;
+    font-size: 17px;
+    color: #ffffff;
+    font-family: inherit;
+    font-weight: 500;
+    animation: shake3856 0.3s linear infinite both;
+}
+
+.btn-login:hover {
+    background: #FF8C00;
+    font-size: 17px;
+    color: #ffffff;
+}
+
+@keyframes shake3856 {
+    0% {
+        -webkit-transform: translate(0);
+        transform: translate(0);
+    }
+
+
+    40% {
+        -webkit-transform: translate(-2px, -2px);
+        transform: translate(-2px, -2px);
+    }
+
+
+    80% {
+        -webkit-transform: translate(2px, -2px);
+        transform: translate(2px, -2px);
+    }
+
+}
+
+
+/* SECTION */
+.block-title {
+    height: 4rem;
+    width: 100vw;
+    background-color: #023F80;
+}
+
+.block-info, .block-info_ {
+    min-height: 10rem;
+    width: 100vw;
+    background-color: #F0F5FB;
+}
+
+footer {
+    min-height: 3rem;
+    width: 100vw;
+    background-color: #F0F5FB;
+}
+
+.block-more {
+    min-height: 10rem;
+    background-color: white;
+}
+
+.__block-more {
+    display: flex;
+    justify-content: center;
+}
+
+h2 {
+    color: #023F80
+}
+
+.img-main {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    height: 80%;
+    width: 80%;
+}
+
+.img-main-two {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.block-more-children {
+    width: 75vw;
+}
+
+@media screen and (min-width: 700px) {
+    .btn-login {
+        margin-left: 35rem;
+    }
+
+    .img-banner {
+        width: 100vw;
+        height: 40vh;
+        object-fit: cover;
+    }
+
+    h1 {
+        padding-top: -0.5rem !important;
+    }
+
+    .img-main, .img-main-two {
+        width: 60vw;
+    }
+
+    .block-info-text, .__block-more {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: start;
+    }
+
+    .__block-info {
+        margin-top: 0 !important;
+
+    }
+
+    .block-info-div {
+        display: flex; 
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+
+    .block-more-div {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem !important;
+    }
+
+    .block-more-children{
+        width: 30vw;
+        margin-top: 1rem !important;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .btn-login {
+        margin-left: 45rem;
+        margin-top: 1rem;
+        height: 3em;
+        width: 6em;
+    }
+
+    header {
+        height: 5rem;
+    }
+
+    .img-logo {
+        height: 70px;
+        width: 70px;
+    }
+
+    .img-banner {
+        width: 100vw;
+        min-height: 30vh;
+        object-fit: cover;
+    }
+
+    h1 {
+        padding-top: 0;
+    }
+
+    .block-info {
+        display: flex;
+        flex-direction: row-reverse !important;
+        justify-content: space-evenly !important;
+        min-height: 35vh;
+    }
+
+
+    .img-main, .img-main-two {
+        width: 40vw;
+    }
+
+    .block-info-text, .__block-more {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: start;
+        max-width: 35vw;
+    }
+
+    .__block-info {
+        margin-top: 0 !important;
+
+    }
+
+    .block-info-div {
+        display: flex; 
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+
+    .block-more-div {
+        display: flex;
+        justify-content: space-evenly !important;
+        padding: 0 1rem !important;
+    }
+
+    .block-more-children{
+        width: 20vw !important;
+        height: 20vh !important;
+        margin-top: 1rem !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+/* FOOTER */

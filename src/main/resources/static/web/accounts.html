@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank - Accounts</title>
+
+    <link rel="shortcut icon" href="./pics/banco.png" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles/accounts.css">
+</head>
+
+<body id="body-accounts">
+    <!-- LOADER -->
+
+    <main id="app">
+
+        <nav class="sidebar close">
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        <img src="./pics/cloud_bank_1.png"
+                            alt="">
+                    </span>
+
+                    <div class="text logo-text">
+                        <span class="name">CloudBank</span>
+                        <span class="profession">Accounts</span>
+                    </div>
+                </div>
+
+                <i class='bx bx-chevron-right toggle'></i>
+            </header>
+
+            <div class="menu-bar">
+                <div class="menu">
+
+                    <li class="search-box">
+                        <i class='bx bx-search icon'></i>
+                        <input type="text" placeholder="Search...">
+                    </li>
+
+                    <ul class="menu-links">
+                        <li class="nav-link">
+                            <a href="./accounts.html">
+                                <i class='bx bxs-user-account'></i>
+                                <span class="text nav-text">Accounts</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="./cards.html">
+                                <i class='bx bx-credit-card'></i>
+                                <span class="text nav-text">Cards</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="./staff.html">
+                                <i class='bx bx-user'></i>
+                                <span class="text nav-text">Staff</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="./transfers.html">
+                                <i class='bx bx-transfer'></i>
+                                <span class="text nav-text">Transfers</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="./loan-application.html">
+                                <i class='bx bx-money-withdraw'></i>
+                                <span class="text nav-text">New Loan</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link" v-if="client.type == 'ADMIN'">
+                            <a href="./create-loan.html">
+                                <i class='bx bx-money-withdraw'></i>
+                                <span class="text nav-text">Create Loan</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="bottom-content">
+                    <li class="">
+                        <a v-on:click="logOut">
+                            <i class='bx bx-log-out icon'></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
+
+                    <li class="mode">
+                        <div class="sun-moon">
+                            <i class='bx bx-moon icon moon'></i>
+                            <i class='bx bx-sun icon sun'></i>
+                        </div>
+                        <span class="mode-text text">Dark mode</span>
+
+                        <div class="toggle-switch">
+                            <span class="switch"></span>
+                        </div>
+                    </li>
+
+                </div>
+            </div>
+
+        </nav>
+
+        <section class="home">
+            <div class="container">
+                <h2 class="text partnerText">Coins World</h2>
+                <section class="customer-logos slider d-flex" @click="redirectBanner">
+                    <div class="slide"><img src="./pics/cryptos/balls.jpg">
+                    </div>
+                    <div class="slide"><img src="./pics/cryptos/bitcoin.jpg">
+                    </div>
+                    <div class="slide"><img src="./pics/cryptos/cardano.jpg">
+                    </div>
+                    <div class="slide"><img src="./pics/cryptos/dodge.jpg">
+                    </div>
+                    <div class="slide"><img src="./pics/cryptos/dog.jpg"></div>
+                    <div class="slide"><img src="./pics/cryptos/eth.jpg"></div>
+                    <div class="slide"><img src="./pics/cryptos/usdt.jpg">
+                    </div>
+                    <div class="slide"><img src="./pics/cryptos/k.jpg">
+                    </div>
+                </section>
+            </div>
+
+            <hr>
+
+            <div class="text text-center">Welcome <span class="tracking-in-expand" v-cloak>{{client.firstName}}
+                    {{client.lastName}}</span></div>
+
+            <div class="accounts">
+                <div class="d-flex justify-content-around align-items-center gap-5">
+                    <div class="accountsCards d-flex justify-content-around align-items-center"
+                        v-for="account in accounts" v-show="account.enable">
+
+                        <div class="d-flex flex-column justify-content-center align-items-start">
+                            <span class="textNumber fw-bold align-self-center" v-cloak>{{account.number}}</span>
+                            <span class="textCaja fw-bold">{{account.type}} bank</span>
+                            <span class="textBalance align-self-center" v-cloak>${{account.balance}}</span>
+                        </div>
+                        <div class=" d-flex flex-column">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-coin align-self-center" width="44" height="44"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <circle cx="12" cy="12" r="9" />
+                                <path
+                                    d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-2a2 2 0 0 1 -1.8 -1" />
+                                <path d="M12 6v2m0 8v2" />
+                            </svg>
+
+                            <a :href="'account.html?id='+ account.id" class="viewTransfers">View
+                                Movements</a>
+
+                            <a v-on:click="deleteAccount(id)" class="cPointer mt-3">Remove Account</a>
+                        </div>
+                    </div>
+
+
+                    <div v-show="accounts.length < 3" v-on:click="addAccount" class="cPointer">
+                        <div class="accountsCards d-flex justify-content-around align-items-center">
+                            <div class="balanceCards d-flex justify-content-center align-items-start gap-3">
+                                <img src="./pics/add.png" alt="Add Create Account">
+                                <span class="fw-bold">
+                                    ADD ACCOUNT
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr>
+            <div v-if="cardsDebit.length > 0" class="w-100">
+                <div class="d-flex justify-content-around w-100">
+                    <div class="cardBank" v-for="card in cardsDebit" v-show="card.enable">
+                        <div class="card__front card__part"
+                            :class="{'card__gold' : card.color == 'GOLD', 'card__silver' : card.color == 'SILVER', 'card__titanium' : card.color == 'TITANIUM'}">
+                            <span class="textCard" v-cloak>DEBIT - {{card.color}}</span>
+
+                            <img class="card__front-logo card__logo" src="./pics/visa-logo.svg">
+
+                            <p class="card_numer" v-cloak>{{separate(card.number)}}</p>
+                            <div class="card__space-75">
+                                <span class="card__label">Card holder</span>
+                                <p class="card__info">{{card.cardholder}}</p>
+                            </div>
+                            <div class="card__space-25">
+                                <span class="card__label">Expires</span>
+                                <p class="card__info">{{yearMonth(card.thruDate)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="card__back card__part"
+                            :class="{'card__gold' : card.color == 'GOLD', 'card__silver' : card.color == 'SILVER', 'card__titanium' : card.color == 'TITANIUM'}">
+                            <div class="card__black-line"></div>
+                            <div class="card__back-content">
+                                <div class="card__secret">
+                                    <p class="card__secret--last">{{card.cvv}}</p>
+                                </div>
+                                <!-- <img class="card__back-square card__square" src="https://image.ibb.co/cZeFjx/little_square.png">
+                  <img class="card__back-logo card__logo" src="https://www.fireeye.com/partners/strategic-technology-partners/visa-fireeye-cyber-watch-program/_jcr_content/content-par/grid_20_80_full/grid-20-left/image.img.png/1505254557388.png">
+                   -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <h4 class="text-center colorText">You don't have Debit Cards</h4>
+            </div>
+
+            <!-- FINISH DEBIT -->
+
+            <div v-if="cardsCredit.length > 0" class="w-100 mt-3">
+                <div class="d-flex justify-content-around w-100">
+                    <div class="cardBank" v-for="card in cardsCredit" v-show="card.enable">
+                        <div class="card__front card__part"
+                            :class="{'card__gold' : card.color == 'GOLD', 'card__silver' : card.color == 'SILVER', 'card__titanium' : card.color == 'TITANIUM'}">
+
+                            <span class="textCard">CREDIT - {{card.color}}</span>
+                            <img class="card__front-logo card__logo" src="./pics/visa-logo.svg">
+
+                            <p class="card_numer">{{separate(card.number)}}</p>
+                            <div class="card__space-75">
+                                <span class="card__label">Card holder</span>
+                                <p class="card__info">{{card.cardholder}}</p>
+                            </div>
+                            <div class="card__space-25">
+                                <span class="card__label">Expires</span>
+                                <p class="card__info">{{yearMonth(card.thruDate)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="card__back card__part"
+                            :class="{'card__gold' : card.color == 'GOLD', 'card__silver' : card.color == 'SILVER', 'card__titanium' : card.color == 'TITANIUM'}">
+                            <div class="card__black-line"></div>
+                            <div class="card__back-content">
+                                <div class="card__secret">
+                                    <p class="card__secret--last">{{card.cvv}}</p>
+                                </div>
+                                <!-- <img class="card__back-square card__square" src="https://image.ibb.co/cZeFjx/little_square.png">
+                    <img class="card__back-logo card__logo" src="https://www.fireeye.com/partners/strategic-technology-partners/visa-fireeye-cyber-watch-program/_jcr_content/content-par/grid_20_80_full/grid-20-left/image.img.png/1505254557388.png">
+                     -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <h4 class="text-center colorText">You don't have Credit Cards</h4>
+            </div>
+
+            <hr>
+
+            <div v-if="loans.length > 0" class="w-100 d-flex row justify-content-around">
+                <div class="accountsCards col-5 d-flex justify-content-around align-items-center loansDiv"
+                    v-for="loan in loans">
+
+                    <div class="balanceCards" v-if="loans.length == 0">
+                        <p>You don't have loans</p>
+                    </div>
+                    <div class="creditCardsInfo" v-else>
+                        <p v-cloak>Loan: {{loan.name}}</p>
+                        <span class="fw-bold" v-cloak>{{loan.payments}}
+                            dues
+                            - {{formatMoney(loan.amount)}}
+                        </span>
+                    </div>
+
+                    <div class="creditCardsMov">
+                        <i class='bx bx-receipt'></i>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <h4 class="text-center colorText">You don't have LOANS</h4>
+            </div>
+
+            <footer class="footer-section mt-5">
+                <div class="container">
+                    <div class="footer-cta pt-5 pb-5">
+                        <div class="row">
+                            <div class="col-xl-4 col-md-4 mb-30">
+                                <div class="single-cta">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div class="cta-text">
+                                        <h4>Find us</h4>
+                                        <span>P. Sherman calle Wallaby 42, Sidney</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4 mb-30">
+                                <div class="single-cta">
+                                    <i class="fas fa-phone"></i>
+                                    <div class="cta-text">
+                                        <h4>Call us</h4>
+                                        <span>911-0303456</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4 mb-30">
+                                <div class="single-cta">
+                                    <i class="far fa-envelope-open"></i>
+                                    <div class="cta-text">
+                                        <h4>Mail us</h4>
+                                        <span>findingnemo@gmail.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-content pt-5 pb-5">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 mb-50">
+                                <div class="footer-widget">
+                                    <div class="footer-logo">
+                                        <a href="./index.html"><img src="https://i.ibb.co/QDy827D/ak-logo.png"
+                                                class="img-fluid" alt="logo"></a>
+                                    </div>
+                                    <div class="footer-text">
+                                        <p>
+                                            Carry out your usual operations without coming to the Bank or approaching an
+                                            ATM. Operate online 24 hours a day.</p>
+                                    </div>
+                                    <div class="footer-social-icon">
+                                        <span>Follow us</span>
+                                        <a href="https://www.facebook.com/MindHubLa/" target="_blank"><i
+                                                class="fab fa-facebook-f facebook-bg"></i></a>
+                                        <a href="https://twitter.com/MejoresTwits" target="_blank"><i
+                                                class="fab fa-twitter twitter-bg"></i></a>
+                                        <a href="https://mindhubweb.com/" target="_blank"><i
+                                                class="fab fa-google-plus-g google-bg"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                                <div class="footer-widget">
+                                    <div class="footer-widget-heading">
+                                        <h3>Useful Links</h3>
+                                    </div>
+                                    <ul>
+                                        <li><a href="./index.html">Home</a></li>
+                                        <li><a href="#">about</a></li>
+                                        <li><a href="#">services</a></li>
+                                        <li><a href="#">portfolio</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                        <li><a href="#">About us</a></li>
+                                        <li><a href="#">Our Services</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Contact us</a></li>
+                                        <li><a href="#">Latest News</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
+                                <div class="footer-widget">
+                                    <div class="footer-widget-heading">
+                                        <h3>Subscribe</h3>
+                                    </div>
+                                    <div class="footer-text mb-25">
+                                        <p>Don’t miss to subscribe to our new feeds, kindly fill the form below.</p>
+                                    </div>
+                                    <div class="subscribe-form">
+                                        <form action="#">
+                                            <input type="text" placeholder="Email Address">
+                                            <button><i class="fab fa-telegram-plane"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                                <div class="copyright-text">
+                                    <p>Copyright &copy; 2022, All Right Reserved <a
+                                            href="https://codepen.io/anupkumar92/">Anup</a></p>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 d-none d-lg-block text-right">
+                                <div class="footer-menu">
+                                    <ul>
+                                        <li><a href="#">Home</a></li>
+                                        <li><a href="#">Terms</a></li>
+                                        <li><a href="#">Privacy</a></li>
+                                        <li><a href="#">Policy</a></li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </section>
+
+    </main>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JQUERY -->
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="./scripts/accounts.js"></script>
+</body>
+
+</html>
