@@ -19,7 +19,7 @@ Vue.createApp({
   },
   created() {
 
-    axios.get('http://localhost:8080/api/clients/current')
+    axios.get('/api/clients/current')
       .then(datos => {
 
         console.log(datos);
@@ -65,7 +65,7 @@ Vue.createApp({
     },
 
     redirect(id) {
-      let url = "http://localhost:8080/web/account.html?id=" + id;
+      let url = "/web/account.html?id=" + id;
       window.location.href(url);
       return 1;
     },
@@ -121,7 +121,7 @@ Vue.createApp({
     createTransfer() {
       if (this.accountSelectTransferDestiny != "" && this.accountSelectTransferOrigin != "" && this.accountNumberTransfer > 0 && this.accountDescriptionTransfer != "") {
 
-        axios.post('http://localhost:8080/api/transactions', `description=${this.accountDescriptionTransfer}&amount=${this.accountNumberTransfer}&accountOriginNumber=${this.accountSelectTransferOrigin}&accountDestinyNumber=${this.accountSelectTransferDestiny}`)
+        axios.post('/api/transactions', `description=${this.accountDescriptionTransfer}&amount=${this.accountNumberTransfer}&accountOriginNumber=${this.accountSelectTransferOrigin}&accountDestinyNumber=${this.accountSelectTransferDestiny}`)
           .then(response => {
             Swal.fire({
               icon: 'success', // success - error

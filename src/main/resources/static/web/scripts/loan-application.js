@@ -182,7 +182,7 @@ Vue.createApp({
         "accountNumber": this.loanAccount.number
       }
       console.log(object);
-      axios.post('http://localhost:8080/api/loans', object)
+      axios.post('/api/loans', object)
 
         .then(() => {
           console.log('created')

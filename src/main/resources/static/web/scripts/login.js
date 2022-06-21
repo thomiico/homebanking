@@ -11,7 +11,7 @@ Vue.createApp({
   },
   created() {
 
-    axios.get('http://localhost:8080/api/clients')
+    axios.get('/api/clients')
       .then(datos => {
 
 
@@ -41,7 +41,7 @@ Vue.createApp({
     },
 
     redirect(id) {
-      let url = "http://localhost:8080/web/account.html?id=" + id;
+      let url = "/web/account.html?id=" + id;
       window.location.href(url);
       return 1;
     },

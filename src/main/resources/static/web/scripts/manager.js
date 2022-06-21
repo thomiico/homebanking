@@ -14,7 +14,7 @@ Vue.createApp({
   },
   created() {
 
-    axios.get('http://localhost:8080/rest/clients')
+    axios.get('/rest/clients')
       .then(datos => {
         this.archivoJson = datos;
         this.clients = datos.data._embedded.clients;
@@ -28,7 +28,7 @@ Vue.createApp({
       if (this.firstName != "" && this.lastName != "" && this.email != "") {
 
 
-        axios.post('http://localhost:8080/rest/clients', {
+        axios.post('/rest/clients', {
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email

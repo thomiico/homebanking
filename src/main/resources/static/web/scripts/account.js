@@ -15,7 +15,7 @@ Vue.createApp({
     // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
     this.paramURL = params.id; // "some_value"
 
-    axios.get('http://localhost:8080/api/accounts/' + this.paramURL)
+    axios.get('/api/accounts/' + this.paramURL)
       .then(datos => {
         this.dataB = datos;
         console.log(this.dataB);
