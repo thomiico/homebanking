@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,7 @@ public class LoanController {
         Double balance = accountService.getAccountByNumber(loanApplicationDTO.getAccountNumber()).getBalance();
 
         accountDestiny.setBalance(accountDestiny.getBalance() + loanApplicationDTO.getAmount());
-        Transaction transaction = new Transaction(CREDIT, loanApplicationDTO.getAmount(), loan.getName() +" loan approved", LocalDate.now(), balance, accountDestiny);
+        Transaction transaction = new Transaction(CREDIT, loanApplicationDTO.getAmount(), loan.getName() +" loan approved", LocalDateTime.now(), balance, accountDestiny);
         ClientLoan clientLoan = new ClientLoan(amountInterest, loanApplicationDTO.getPayments(), client, loan);
 
         accountService.saveAccount(accountDestiny);

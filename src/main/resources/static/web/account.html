@@ -55,35 +55,35 @@
                         <li class="nav-link">
                             <a href="./accounts.html">
                                 <i class='bx bxs-user-account'></i>
-                                <span class="text nav-text">Accounts</span>
+                                <span class="text nav-text ms-2">Accounts</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="./cards.html">
                                 <i class='bx bx-credit-card'></i>
-                                <span class="text nav-text">Cards</span>
+                                <span class="text nav-text ms-2">Cards</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="./staff.html">
                                 <i class='bx bx-user'></i>
-                                <span class="text nav-text">Staff</span>
+                                <span class="text nav-text ms-2">Staff</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="./transfers.html">
                                 <i class='bx bx-transfer'></i>
-                                <span class="text nav-text">Transfers</span>
+                                <span class="text nav-text ms-2">Transfers</span>
                             </a>
                         </li>
 
                         <li class="nav-link">
                             <a href="./loan-application.html">
                                 <i class='bx bx-money-withdraw'></i>
-                                <span class="text nav-text">New Loan</span>
+                                <span class="text nav-text ms-2">New Loan</span>
                             </a>
                         </li>
 
@@ -118,7 +118,7 @@
         <section>
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <h1>Account Movements</h1>
-                <div class="tbl-header w-75">
+                <div class="tbl-header w-75 d-flex flex-column align-items-center">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <thead>
                             <tr>
@@ -133,18 +133,18 @@
                         </thead>
                     </table>
                 </div>
-                <div class="tbl-content w-75">
+                <div class="tbl-content w-75 d-flex flex-column align-items-center">
                     <table cellpadding="0" cellspacing="0" border="0">
-                        <tbody>
+                        <tbody v-if="accounts.length > 0">
                             <tr v-for="transaction in accounts">
                                 <td>
                                     <span class="fw-bold">{{transaction.type}}</span>
                                 </td>
-                                <td v-if="transaction.type == 'DEBIT'">
-                                    <span class="bg-danger">-{{formatMoney(transaction.amount)}}</span>
+                                <td v-if="transaction.type == 'DEBIT'" class="bg-danger">
+                                    <span>-{{formatMoney(transaction.amount)}}</span>
                                 </td>
-                                <td v-else>
-                                    <span class="bg-success">+{{formatMoney(transaction.amount)}}</span>
+                                <td v-else class="bg-success">
+                                    <span>+{{formatMoney(transaction.amount)}}</span>
                                 </td>
                                 <td>
                                     {{transaction.description}}
@@ -161,6 +161,25 @@
                                 </td>
                             </tr>
 
+                        </tbody>
+                        <tbody v-else>
+                                <td>
+                                    <span class="fw-bold">NO TRANSACTIONS</span>
+                                </td>
+                                <td class="bg-secondary">$0</td>
+
+                                <td>
+                                    NO DESCRIPTION
+                                </td>
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    #
+                                </td>
+                                <td>
+                                    $0
+                                </td>
                         </tbody>
                     </table>
                 </div>

@@ -1,6 +1,7 @@
 Vue.createApp({
   data() {
     return {
+      passwordType: "password",
       firstNameR: "",
       lastNameR: "",
       emailR: "",
@@ -13,29 +14,35 @@ Vue.createApp({
 
     axios.get('/api/clients')
       .then(datos => {
-
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Successfully completed',
+          toast: true,
+          showConfirmButton: false,
+          timer: 3500
+        })
 
       })
-      .catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-      });
+      .catch(error => {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: error.response.data,
+          toast: true,
+          showConfirmButton: false,
+          timer: 3500
+        })
+
+        console.log(error.response.data)
+
+      })
   },
   methods: {
+    toggleType() {
+      this.passwordType = this.passwordType === "password" ? "text" : "password";
+    },
+
     formatMoney(amount) {
       return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(amount);
     },
@@ -47,29 +54,34 @@ Vue.createApp({
     },
 
     signIn() {
-      axios.post('/api/login', `email=${this.email}&password=${this.password}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
-        .then(response => {
-          console.log('signed in!!!');
-          window.location.href = '/web/accounts.html'
+      if (this.email != "" && this.password != "") {
+
+        axios.post('/api/login', `email=${this.email}&password=${this.password}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
+          .then(response => {
+            console.log('signed in!!!');
+            window.location.href = '/web/accounts.html'
+          })
+          .catch(error => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: "Invalid Password or Email",
+              toast: true,
+              showConfirmButton: false,
+              timer: 1500
+            })
+          });
+      }
+      else {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: "Please, complete all the data",
+          toast: true,
+          showConfirmButton: false,
+          timer: 1500
         })
-        .catch(function (error) {
-          if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            console.log(error.request);
-          } else {
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
-          }
-          console.log(error.config);
-        });
+      }
     },
     logOut() {
       axios.post('/api/logout')
@@ -78,29 +90,37 @@ Vue.createApp({
           window.location.href = '/web/index.html'
         })
     },
-    hideOrShowPassword(){
-      let password1,check;
-    
-      password1=document.getElementById("password1");
-      check=document.getElementById("show");
-    
-      if(check.checked  )
-      {
-          password1.type = "text";
+    hideOrShowPassword() {
+      let password1, check;
+
+      password1 = document.getElementById("password1");
+      check = document.getElementById("show");
+
+      if (check.checked) {
+        password1.type = "text";
       }
-      else 
-      {
-          password1.type = "password";
+      else {
+        password1.type = "password";
       }
     },
-    register(){
-      axios.post('/api/clients',`firstName=${this.firstNameR}&lastName=${this.lastNameR}&email=${this.emailR}&password=${this.passwordR}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})
+    register() {
+      axios.post('/api/clients', `firstName=${this.firstNameR}&lastName=${this.lastNameR}&email=${this.emailR}&password=${this.passwordR}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
         .then(response => {
           console.log('registered');
           this.password = this.passwordR;
           this.email = this.emailR;
           this.signIn();
 
+        })
+        .catch(error => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: error.response.data,
+            toast: true,
+            showConfirmButton: false,
+            timer: 1500
+          })
         })
     }
   },
@@ -124,7 +144,7 @@ document.addEventListener('click', e => {
 
 
 // LOGIN 
-document.querySelector('.img__btn').addEventListener('click', function() {
+document.querySelector('.img__btn').addEventListener('click', function () {
   document.querySelector('.cont').classList.toggle('s--signup');
 });
 
@@ -153,23 +173,3 @@ modeSwitch.addEventListener("click", () => {
     modeText.innerText = "Dark mode";
   }
 });
-
-// // Image background login
-// var index = 0;
-// var listaimg = ["./pics/background/1.jpg", "./pics/background/2.jpg", "./pics/background/3.jpg", "./pics/background/2.jpg", "./pics/background/1.jpg"]
-
-// $(function() {
-  
-//   setInterval(changeImage, 2000);
-
-// });
-
-// function changeImage(){
-// 	$('.img').css("background-image", 'url(' +listaimg[index]+')');
-//   $('.img:before').css("background-image", 'url(' +listaimg[index]+')');
-// 	index++
-
-// 	if(index == listaimg.length-1){
-// 		index = 0;
-//   }
-// }

@@ -9,7 +9,7 @@ Vue.createApp({
       loans: [],
       cardsDebit: [],
       cardsCredit: [],
-      accountType: "",
+      accountType: "SAVING",
       bool: false,
     }
   },
@@ -65,7 +65,7 @@ Vue.createApp({
       window.location.href(url);
       return 1;
     },
-    redirectBanner(){
+    redirectBanner() {
       window.location.href = "https://www.binance.com/es"
     },
     separate(number) {
@@ -103,10 +103,17 @@ Vue.createApp({
           location.reload();
         })
     },
-    deleteAccount(id){
+    deleteAccount(id) {
       axios.post(`/api/clients/current/accounts/${id}`)
-      .then(location.reload)
+        .then(location.reload)
     }
+  },
+  mounted() {
+    // Loader
+    $(document).ready(function preloaderSetup() {
+      $(".st-perloader").fadeOut();
+      $("st-perloader-in").delay(150).fadeOut("slow");
+    })
   },
   computed: {
 

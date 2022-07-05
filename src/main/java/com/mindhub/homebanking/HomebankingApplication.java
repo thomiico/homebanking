@@ -47,8 +47,8 @@ public class HomebankingApplication {
 			Client admin = new Client("admin", "admin", "admin@admin.com", passwordEncoder.encode("admin1234"), ADMIN);
 			clientRepository.save(admin);
 
-			LocalDate timeNow = LocalDate.now();
-			LocalDate timeTomorrow = timeNow.plusDays(1);
+			LocalDateTime timeNow = LocalDateTime.now();
+			LocalDateTime timeTomorrow = timeNow.plusDays(1);
 
 			Account cuenta1 = new Account("VIN001", SAVING, timeNow, 5000, true, cliente1);
 			Account cuenta2 = new Account("VIN002", CURRENT,timeTomorrow, 7500, true, cliente1);

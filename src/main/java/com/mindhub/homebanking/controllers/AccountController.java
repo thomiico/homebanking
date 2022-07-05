@@ -4,9 +4,6 @@ import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.mindhub.homebanking.Utils.Utils.numberAccount;
@@ -46,7 +43,7 @@ public class AccountController {
         return new AccountDTO(account);
     }
 
-    @PostMapping(path="/clients/current/accounts")
+    @PostMapping("/clients/current/accounts")
     public ResponseEntity<Object> newAccount(Authentication authentication, @RequestParam AccountType type){
         Client client = clientService.getClientCurrent(authentication);
         if(client.getAccounts().size() >= 3){ // client.getAccounts().stream().count() >= 3
@@ -56,7 +53,7 @@ public class AccountController {
         String accountNum;
         accountNum = "VIN" + numberAccount(accountService.getAccounts());
 
-        LocalDate timeNow = LocalDate.now();
+        LocalDateTime timeNow = LocalDateTime.now();
         accountService.saveAccount(new Account(accountNum, type, timeNow, 0, true, client));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

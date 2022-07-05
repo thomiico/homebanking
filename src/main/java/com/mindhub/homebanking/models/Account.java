@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class Account {
     private long id;
 
     private String number;
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
     private double balance;
     private AccountType type;
     private boolean isEnable;
@@ -32,7 +33,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(String number, AccountType type, LocalDate creationDate, double balance, boolean isEnable, Client client) {
+    public Account(String number, AccountType type, LocalDateTime creationDate, double balance, boolean isEnable, Client client) {
         this.number = number;
         this.type = type;
         this.creationDate = creationDate;
@@ -45,11 +46,11 @@ public class Account {
         return id;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

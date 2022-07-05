@@ -1,14 +1,13 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.AccountAndDateDTO;
 import com.mindhub.homebanking.dtos.CardPostnetDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.services.AccountService;
-import com.mindhub.homebanking.services.CardService;
-import com.mindhub.homebanking.services.ClientService;
-import com.mindhub.homebanking.services.TransactionService;
+import com.mindhub.homebanking.services.*;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,12 +44,15 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private PdfGenerator pdfGenerator;
 
     @GetMapping("/transactions")
     public List<Transaction> getTransactions(){
         return transactionService.getTransactions();
     }
 
+    @CrossOrigin
     @Transactional
     @PostMapping("/transactions/postnet")
     public ResponseEntity<Object> newTransactionPostnet(@RequestBody CardPostnetDTO cardPostnetDTO){
@@ -76,7 +83,7 @@ public class TransactionController {
         accounts.get(0).setBalance(accounts.get(0).getBalance() - cardPostnetDTO.getAmount());
         accountService.saveAccount(accounts.get(0));
 
-        Transaction transaction = new Transaction(DEBIT, cardPostnetDTO.getAmount(), cardPostnetDTO.getDescription(), LocalDate.now(), accounts.get(0).getBalance(), accounts.get(0));
+        Transaction transaction = new Transaction(DEBIT, cardPostnetDTO.getAmount(), cardPostnetDTO.getDescription(), LocalDateTime.now(), accounts.get(0).getBalance(), accounts.get(0));
         transactionService.saveTransaction(transaction);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -124,8 +131,8 @@ public class TransactionController {
         accountOrigin.setBalance(accountOrigin.getBalance() - amount);
         accountDestiny.setBalance(accountDestiny.getBalance() + amount);
 
-        Transaction transactionDebit = new Transaction(DEBIT, amount, accountDestinyNumber + description, LocalDate.now(), accountDestiny.getBalance() , accountOrigin);
-        Transaction transactionCredit = new Transaction(CREDIT, amount, accountOriginNumber + description, LocalDate.now(), accountOrigin.getBalance() , accountDestiny);
+        Transaction transactionDebit = new Transaction(DEBIT, amount, accountDestinyNumber + description, LocalDateTime.now(), accountDestiny.getBalance() , accountOrigin);
+        Transaction transactionCredit = new Transaction(CREDIT, amount, accountOriginNumber + description, LocalDateTime.now(), accountOrigin.getBalance() , accountDestiny);
 
         transactionService.saveTransaction(transactionDebit);
         transactionService.saveTransaction(transactionCredit);
@@ -133,5 +140,34 @@ public class TransactionController {
         accountService.saveAccount(accountDestiny);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/transactions/generate")
+    public ResponseEntity<?> generatePdf(HttpServletResponse response, Authentication authentication, @RequestBody AccountAndDateDTO accountAndDateDTO) throws IOException, DocumentException, com.lowagie.text.DocumentException {
+        if (accountAndDateDTO.getNumberAccount().isEmpty())
+            return new ResponseEntity<>("Invalid number account", HttpStatus.FORBIDDEN);
+        if (accountAndDateDTO.getSince().isAfter(LocalDateTime.now()))
+            return new ResponseEntity<>("The date since is invalid", HttpStatus.FORBIDDEN);
+        if (accountAndDateDTO.getUntil().isAfter(LocalDateTime.now()))
+            return new ResponseEntity<>("The date until is invalid", HttpStatus.FORBIDDEN);
+
+
+        Client client = clientService.getClientCurrent(authentication);
+        Account account = accountService.getAccountByNumber(accountAndDateDTO.getNumberAccount());
+
+        if (!client.getAccounts().contains(account))
+            return new ResponseEntity<>("You are not the account owner.", HttpStatus.FORBIDDEN);
+
+
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-mm-dd:hh:mm");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=dano-bank_" + accountAndDateDTO.getNumberAccount() + "-" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+        pdfGenerator.export(response, authentication, accountAndDateDTO.getNumberAccount(), accountAndDateDTO.getSince(), accountAndDateDTO.getUntil());
+
+        return new ResponseEntity<>("PDF Sended.", HttpStatus.ACCEPTED);
     }
 }

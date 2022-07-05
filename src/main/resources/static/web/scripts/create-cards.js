@@ -31,12 +31,10 @@ Vue.createApp({
                 this.client = datos.data;
                 console.log(this.client);
 
-                this.cardsDebit = datos.data.cards.filter(card => card.type == "DEBIT").sort((a, b) => { return a.id - b.id });
-                this.cardsDebit = this.cardsDebit.filter(card => card.enabled);
+                this.cardsDebit = datos.data.cards.filter(card => card.type == "DEBIT" && card.enabled).sort((a, b) => { return a.id - b.id });
                 console.log(this.cardsDebit);
 
-                this.cardsCredit = datos.data.cards.filter(card => card.type == "CREDIT").sort((a, b) => { return a.id - b.id });
-                this.cardsCredit = this.cardsCredit.filter(card => card.enabled);
+                this.cardsCredit = datos.data.cards.filter(card => card.type == "CREDIT" && card.enabled).sort((a, b) => { return a.id - b.id });
                 console.log(this.cardsCredit);
 
                 this.accounts = datos.data.accounts;

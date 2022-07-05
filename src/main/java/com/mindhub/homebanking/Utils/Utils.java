@@ -2,6 +2,7 @@ package com.mindhub.homebanking.Utils;
 
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.repositories.AccountRepository;
+import net.bytebuddy.utility.RandomString;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,4 +25,10 @@ public class Utils {
         return number = (int) ((Math.random() * (max - min)) + min);
     }
 
+    public static String generateToken() {
+        String token = RandomString.make(38);
+
+        return token;
+
+    }
 }

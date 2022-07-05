@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.mindhub.homebanking.Utils.Utils.numberAccount;
@@ -29,7 +30,6 @@ public class ClientController {
     @Autowired
     private AccountService accountService;
 
-    // @Autowired: Inyeccion de dependencia - crea una instancia de lo que quiero utilizar en el lugar donde lo quiero utilizar
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -73,7 +73,7 @@ public class ClientController {
         String accountNum;
         accountNum = "VIN" + numberAccount(accountService.getAccounts());
 
-        LocalDate timeNow = LocalDate.now();
+        LocalDateTime timeNow = LocalDateTime.now();
         accountService.saveAccount(new Account(accountNum, SAVING, timeNow, 0, true, clientNew));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
