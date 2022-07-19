@@ -135,7 +135,15 @@ Vue.createApp({
           },3000);
             // window.location.href = "./accounts.html"
           })
-          .catch(error => console.warn(error.message))
+          .catch(error => 
+            {
+              Swal.fire(
+                'Transfer not success',
+                'Something went wrong',
+                'error'
+              )
+              console.warn(error.message)
+            })
       }
       
     }

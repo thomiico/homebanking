@@ -23,7 +23,7 @@ Vue.createApp({
   created() {
 
 
-    axios.get('http://localhost:8080/api/clients/current') // axios.get('http://localhost:8080/api/clients/current',{headers:{'accept':'application/xml'}})
+    axios.get('/api/clients/current') // axios.get('http://localhost:8080/api/clients/current',{headers:{'accept':'application/xml'}})
       .then(datos => {
 
         console.log(datos);
@@ -59,7 +59,7 @@ Vue.createApp({
         
       })
       .then(
-        axios.get('http://localhost:8080/api/loans')
+        axios.get('/api/loans')
         .then(datos => {
           this.loansAPI = datos.data.filter(loanFilter => !this.client.loans.map(clientLoan => clientLoan.name).includes(loanFilter.name));
   
@@ -85,7 +85,7 @@ Vue.createApp({
     },
 
     redirect(id) {
-      let url = "http://localhost:8080/web/account.html?id=" + id;
+      let url = "/web/account.html?id=" + id;
       window.location.href(url);
       return 1;
     },
