@@ -129,23 +129,32 @@ Vue.createApp({
               text: 'Thanks for use this Bank',
               footer: '<a href="./accounts.html">Back to Accounts</a>'
             })
-            setInterval(function(){
-              
-                  window.location.href = './accounts.html'; 
-          },3000);
+            setInterval(function () {
+
+              window.location.href = './accounts.html';
+            }, 3000);
             // window.location.href = "./accounts.html"
           })
-          .catch(error => 
-            {
-              Swal.fire(
-                'Transfer not success',
-                'Something went wrong',
-                'error'
-              )
-              console.warn(error.message)
-            })
+          .catch(error => {
+            Swal.fire(
+              'Transfer not success',
+              'Something went wrong',
+              'error'
+            )
+            console.warn(error.message)
+          })
       }
-      
+      else {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: "Please, complete all the data",
+          toast: true,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+
     }
   },
   computed: {
