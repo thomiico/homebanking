@@ -54,7 +54,7 @@ Vue.createApp({
     },
 
     signIn() {
-      if (!this.email.isEmpty() && !this.password.isEmpty()) {
+      if (this.email.length > 0 && this.password.length > 0) {
 
         axios.post('/api/login', `email=${this.email}&password=${this.password}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
           .then(response => {
