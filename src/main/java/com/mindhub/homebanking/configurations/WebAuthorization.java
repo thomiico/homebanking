@@ -22,7 +22,7 @@ class WebAuthorization extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
 
-                .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
+                .antMatchers( "/api/clients").permitAll()
                 .antMatchers("/web/index.html").permitAll()
                 .antMatchers("/web/login.html").permitAll()
                 .antMatchers("/web/pics/**").permitAll()
