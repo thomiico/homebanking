@@ -61,7 +61,7 @@ Vue.createApp({
       .then(
         axios.get('/api/loans')
         .then(datos => {
-          this.loansAPI = datos.data.filter(loanFilter => !this.client.loans.map(clientLoan => clientLoan.name).includes(loanFilter.name));
+          this.loansAPI = datos.data.filter(loanFilter => !this.client.loans.filter(clientLoan => clientLoan.name).includes(loanFilter.name));
   
           console.log(this.loansAPI);
         })
