@@ -113,14 +113,26 @@ Vue.createApp({
 
         })
         .catch(error => {
+          if (error.response.data == 'Missing data') {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: 'Missing Data',
+              toast: true,
+              showConfirmButton: false,
+              timer: 1500
+            })
+        }
+        if (error.response.data == 'Email already in use') {
           Swal.fire({
             position: 'top-end',
             icon: 'error',
-            title: error.response.data,
+            title: 'Email already in use',
             toast: true,
             showConfirmButton: false,
             timer: 1500
           })
+        }
         })
     }
   },
