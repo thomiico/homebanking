@@ -23,6 +23,7 @@ class WebAuthorization extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
 
                 .antMatchers( "/api/clients").permitAll()
+                .antMatchers( "/api/clients/**").permitAll()
                 .antMatchers("/web/index.html").permitAll()
                 .antMatchers("/web/login.html").permitAll()
                 .antMatchers("/web/pics/**").permitAll()
@@ -33,7 +34,6 @@ class WebAuthorization extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/loans").hasAnyAuthority("CLIENT", "ADMIN")
                 .antMatchers("/api/loans/**").hasAnyAuthority("CLIENT", "ADMIN")
                 .antMatchers("/api/clients/current/**").hasAnyAuthority("CLIENT", "ADMIN")
-                .antMatchers("/api/clients").hasAnyAuthority("CLIENT", "ADMIN")
                 .antMatchers("/api/accounts").hasAnyAuthority("CLIENT", "ADMIN")
                 .antMatchers("/api/accounts/**").hasAnyAuthority("CLIENT", "ADMIN")
                 .antMatchers("/api/transactions").hasAnyAuthority("CLIENT", "ADMIN")

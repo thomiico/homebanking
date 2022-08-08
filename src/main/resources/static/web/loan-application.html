@@ -131,6 +131,7 @@
                         </div>
                         <div>
                             <select class="custom-select" v-model="loanPayments" v-cloak>
+                                <option disabled selected>Select Your Payment</option>
                                 <option v-for="loanPay in loanType.loanList">{{loanPay}}</option>
                             </select>
 

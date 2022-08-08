@@ -14,25 +14,27 @@ Vue.createApp({
 
     axios.get('/api/clients')
       .then(datos => {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Successfully completed',
-          toast: true,
-          showConfirmButton: false,
-          timer: 3500
-        })
+        console.log("success");
+        // Swal.fire({
+        //   position: 'top-end',
+        //   icon: 'success',
+        //   title: 'Successfully completed',
+        //   toast: true,
+        //   showConfirmButton: false,
+        //   timer: 3500
+        // })
 
       })
       .catch(error => {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: error.response.data,
-          toast: true,
-          showConfirmButton: false,
-          timer: 3500
-        })
+        console.log("error");
+        // Swal.fire({
+        //   position: 'top-end',
+        //   icon: 'error',
+        //   title: error.response.data,
+        //   toast: true,
+        //   showConfirmButton: false,
+        //   timer: 3500
+        // })
 
         console.log(error.response.data)
 
